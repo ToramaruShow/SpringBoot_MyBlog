@@ -28,5 +28,5 @@ This is the URL that can be used at the moment.
 * [user/info](http://localhost:8080/MyBlog/user/info)
 * [test/cate](http://localhost:8080/MyBlog/test/cate)
 
-### SQL URL
+# SQL URL
 * [[SQL SETUP]](https://github.com/ToramaruShow/SpringBootSQL)
