@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title th:text="パス変更"></title>
+</head>
+
+<body>
+	<h1 th:text="${title}"></h1>
+	<div th:if="${session.loginInfo != null}">
+		<span th:text="${' [ログインユーザ] ' + session.loginInfo.userId + 'さん'}" style="padding-right: 50px"></span>
+		<a th:href="@{/logout}" onclick="return confirm('ログアウトしてもよろしいですか？')">ログアウト</a>
+	</div>
+	<form>
+		<dl>
+			<dt><!--タイトル-->
+				<label>
+					[PassWord]
+				</label>
+			</dt>
+			<dd>
+				<label>
+					<input type="text" name="pass">
+				</label>
+			</dd>
+			<dt><!--内容-->
+				<label>
+					[Check]
+				</label>
+			</dt>
+			<dd>
+				<label>
+					<input type="text" name="check">
+				</label><!--type="text"を警告が出たので消した-->
+				<div th:if="${err!=null}" th:text="${err}" style="color:red"></div>
+			</dd>
+		</dl>
+		<div>
+			<button type="submit" name="result" onclick="return confirm('変更してもよろしいですか？')">パスワード変更</button>
+		</div>
+	</form>
+</body>
+
+</html>

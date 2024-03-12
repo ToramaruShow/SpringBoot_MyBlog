@@ -1,0 +1,14 @@
+<div xmlns:th="http://www.thymeleaf.org" th:fragment="menu_fragment">
+	<div th:if="${session.loginInfo != null}">
+		<span th:text="${' [ログインユーザ] ' + session.loginInfo.userId + 'さん'}" style="padding-right: 50px"></span>
+		[ <a th:href="@{/blog/select}">一覧</a>
+		| <a th:href="@{/blog/input}">登録</a>
+		| <a th:href="@{/blog/cate}">カテゴリ</a>
+		| <a th:href="@{/user}">管理TOP</a>
+		] [ <a th:href="@{/logout}" onclick="return confirm('ログアウトしてもよろしいですか？')">ログアウト</a>
+		]
+	</div>
+	<div th:if="${session.loginInfo == null}">
+		<a th:href="@{/}">ログイン</a>
+	</div>
+</div>

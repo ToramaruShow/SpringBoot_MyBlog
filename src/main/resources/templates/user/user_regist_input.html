@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title th:text="${title}"></title>
+</head>
+
+<body>
+	<h1 th:text="${title}"></h1>
+	<div th:text="${checkMsg}"></div>
+	<form th:action="@{/user/regist}" th:object="${loginInfo}">
+		<dl>
+			<dt><!--ユーザID-->
+				<label for="userId">
+					[ユーザID](英数字20字まで)
+				</label>
+			</dt>
+			<dd>
+				<input type="text" th:field="*{userId}">
+				<div th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}" style="color:red"></div>
+			</dd>
+			<dt><!--パスワード-->
+				<label for="passwd">
+					[パスワード](英数字)
+				</label>
+			</dt>
+			<dd>
+				<input type="password" th:field="*{passwd}">
+				<div th:if="${#fields.hasErrors('passwd')}" th:errors="*{passwd}" style="color:red"></div>
+			</dd>
+			<dt><!--メール-->
+				<label for="email">
+					[メール](英数字30字まで)
+				</label>
+			</dt>
+			<dd>
+				<input type="text" th:field="*{email}">
+				<div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color:red"></div>
+			</dd>
+		</dl>
+		<p>
+				<button type="submit" name="btn">ユーザ登録</button>
+		</p>
+	</form>
+	<!--/* PROGRAM COMMENT */-->
+</body>
+
+</html>

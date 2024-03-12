@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title th:text="${title}"></title>
+</head>
+
+<body>
+	<div th:replace="~{/blog/parts/blog_menu::menu_fragment}"></div><!--~{}を付け足した-->
+	<h1 th:text="${title}"></h1>
+	<form th:action="@{/blog/confirm}" th:object="${blog}">
+		<input type="hidden" th:field="*{id}">
+		<dl>
+			<dt><!--タイトル-->
+				<label for="title">
+					[タイトル]
+				</label>
+			</dt>
+			<dd>
+				<input type="text" th:field="*{title}">
+				<div th:if="${#fields.hasErrors('title')}" th:errors="*{title}" style="color:red"></div>
+			</dd>
+			<dt><!--カテゴリ-->
+				<label for="categoryId">
+					[カテゴリ]
+				</label>
+			</dt>
+			<dd>
+				<select th:field="*{categoryId}">
+				<option th:each="item:${categoryList}" th:value="${item.id}" th:text="${item.name}"/><!--</>で省略した-->
+				</select>
+			</dd>
+			<dt><!--内容-->
+				<label for="body">
+					[内容]
+				</label>
+			</dt>
+			<dd>
+				<textarea cols="30" rows="5" th:field="*{body}"></textarea><!--type="text"を警告が出たので消した-->
+				<div th:if="${#fields.hasErrors('body')}" th:errors="*{body}" style="color:red"></div>
+			</dd>
+			<!--				<label for="contents">[内容]-->
+			<!--				</label>-->
+			<!--			</dt>-->
+			<!--			<dd>-->
+			<!--				<textarea rows="5" cols="30" th:filed="*{body}"></textarea>-->
+			<!--			</dd>-->
+		</dl>
+		<p>
+			<th:block th:if="*{id==0}">
+				<button type="submit" name="btn" th:value="${btnMode}">登録確認</button>
+			</th:block>
+			<th:block th:if="*{id!=0}">
+				<button type="submit" name="btn" th:value="${btnModeUp}">更新確認</button>
+				<button type="submit" name="btn" th:value="${btnModeDel}">削除確認</button>
+			</th:block>
+		</p>
+	</form>
+	<!--/* PROGRAM COMMENT */-->
+</body>
+
+</html>

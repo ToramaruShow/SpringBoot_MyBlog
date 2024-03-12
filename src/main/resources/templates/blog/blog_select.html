@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title th:text="${title}"></title>
+	<link rel="stylesheet" th:href="@{/css/blog.css}">
+</head>
+
+<body>
+	<div th:replace="~{/blog/parts/blog_menu::menu_fragment}"></div><!--~{}を付け足した-->
+	<h1 th:text="${title}"></h1>
+	<div th:text="${resultMsg}"></div>
+	<ul th:if="${session.loginInfo != null}">
+		<li th:each="item:${blogList}">
+			<a th:href="@{/blog/search(id=${item.id})}" th:text="${item}"></a>
+		</li>
+	</ul>
+	<div th:if="${session.loginInfo == null}">ログインしていません！</div>
+	<ul class="paging">
+		<li>
+			<span th:if="${pages.first}">&lt;&lt;</span>
+			<a th:if="${not pages.first}" th:href="@{${url}(page=0)}">&lt;&lt;</a>
+		</li>
+		<li th:each="i:${#numbers.sequence(0, pages.totalPages-1)}">
+			<span th:if="(${i}==${pages.number}) and (${i}!=-1)" th:text="${i+1}"></span>
+			<a th:if="(${i}!=${pages.number}) and (${i}!=-1)" th:href="@{${url}(page=${i})}">
+				<span th:text="${i+1}"></span>
+			</a>
+		</li>
+		<li>
+			<span th:if="${pages.last}">&gt;&gt;</span>
+			<a th:if="${not pages.last}" th:href="@{${url}(page=(${pages.totalPages-1}))}">&gt;&gt;</a>
+		</li>
+	</ul>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title th:text="${title}"></title>
+</head>
+
+<body>
+	<div th:replace="~{/blog/parts/blog_menu::menu_fragment}"></div><!--~{}を付け足した-->
+	<h1 th:text="${title}"></h1>
+	<div th:if="${confirmMsg != null}">以下の内容で[[${confirmMsg}]]します</div>
+	<form th:action="@{/blog/result}" th:object="${blog}">
+		<input type="hidden" th:field="*{id}">
+		<input type="hidden" th:field="*{title}">
+		<input type="hidden" th:field="*{categoryId}">
+		<input type="hidden" th:field="*{body}">
+		<dl>
+			<dt><!--タイトル-->
+				[タイトル]
+			</dt>
+			<dd>
+				<div th:text="*{title}"></div>
+			</dd>
+			<dt><!--カテゴリ-->
+				[カテゴリ]
+			</dt>
+			<dd>
+				<div th:text="*{category}"></div><!--categoryIdではない-->
+			</dd>
+			<dt><!--内容-->
+				[内容]
+			</dt>
+			<dd>
+				<div th:text="*{body}"></div>
+			</dd>
+			<!--				<label for="contents">[内容]-->
+			<!--				</label>-->
+			<!--			</dt>-->
+			<!--			<dd>-->
+			<!--				<textarea rows="5" cols="30" th:filed="*{body}"></textarea>-->
+			<!--			</dd>-->
+		</dl>
+		<p>
+			<button type="submit" name="btn" th:value="${btnBack}">前のページに戻る</button>
+			<button type="submit" name="btn" th:value="${btnMode}" 
+				onclick="return confirm('本当に消してもよろしいですか？')">処理実行</button>
+		</p>
+	</form>
+	<!--/* PROGRAM COMMENT */-->
+</body>
+</html>

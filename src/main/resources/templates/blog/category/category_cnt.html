@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:if="${session.loginInfo != null}">
+	<meta charset="UTF-8">
+	<title th:text="${categorytitle}"></title>
+</head>
+
+<body th:if="${session.loginInfo != null}">
+	<div th:replace="~{/blog/parts/blog_menu::menu_fragment}"></div><!--~{}を付け足した-->
+	<h1 th:text="${categorytitle}"></h1>
+	<div style="border: solid 1px #000 ; height: 110px ; overflow-y: scroll;">
+		<table>
+			<tr>
+				<th>ID</th>
+				<th>NAME</th>
+				<th>DESCRIPTION</th>
+			</tr>
+			<tr th:each="item:${blogList}"><!--イメージとしては Pythonのfor item in blogList-->
+				<td><a th:href="@{/blog/cate/search(id=${item.id},btn=${item.id})}" th:text="${item.id}"></a></td>
+				<td><a th:href="@{/blog/cate/search(id=${item.id},btn=${item.id})}" th:text="${item.name}"></a></td>
+				<td><a th:href="@{/blog/cate/search(id=${item.id},btn=${item.id})}" th:text="${item.description}" /></a></td>
+				<!--forでitemへ順に格納されるので、ここはprint(item)って感じ-->
+			</tr>
+		</table>
+	</div>
+	<br><!--入力フォーム-->
+	<div th:if="${resultMsg!=null}" th:text="${resultMsg}"></div>
+	<form th:if="${!confirm}" th:action="@{/blog/cate/confirm}" th:object="${category}"><!--objectがあるから*{}が反応できる？-->
+		<input type="hidden" th:field="*{id}">
+		<input th:if="${confirm}" type="hidden" th:field="*{name}">
+		<input th:if="${confirm}" type="hidden" th:field="*{description}">
+		<dl>
+			<dt th:if="*{id!=0}"><!--ID-->
+				<label>
+					[CategoryID]
+				</label>
+			</dt>
+			<dd th:if="*{id!=0}">
+				<div>ID: [[*{id}]]</div>
+			</dd>
+			<dt><!--タイトル-->
+				<label>
+					[CategoryName]
+				</label>
+			</dt>
+			<dd>
+				<label>
+					<input type="text" th:field="*{name}">
+				</label>
+				<div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red"></div>
+			</dd>
+			<dt><!--内容-->
+				<label>
+					[Description]
+				</label>
+			</dt>
+			<dd>
+				<label>
+					<textarea cols="30" rows="5" th:field="*{description}"></textarea>
+				</label><!--type="text"を警告が出たので消した-->
+			</dd>
+		</dl>
+		<p>
+			<th:block th:if="*{id==0}">
+				<button type="submit" name="btn" th:value="${btnMode}">Regist Confirm</button>
+			</th:block>
+			<th:block th:if="*{id!=0}">
+				<button type="submit" name="btn" th:value="${btnModeUp}">Update Confirm</button>
+				<button type="submit" name="btn" th:value="${btnModeDel}">Delete Confirm</button>
+			</th:block>
+		</p>
+	</form>
+
+
+
+	<form th:if="${confirm}" th:action="@{/blog/cate/result}" th:object="${category}">
+		<input type="hidden" th:field="*{id}">
+		<input th:if="${confirm}" type="hidden" th:field="*{name}">
+		<input th:if="${confirm}" type="hidden" th:field="*{description}">
+		<dl>
+			<dt th:if="*{id!=0}"><!--ID-->
+				<label>
+					[CategoryID]
+				</label>
+			</dt>
+			<dd th:if="*{id!=0}">
+				<div>ID: [[*{id}]]</div>
+			</dd>
+			<dt><!--タイトル-->
+				<label>
+					[CategoryName]
+				</label>
+			</dt>
+			<dd>
+				<div th:text="*{name}"></div>
+			</dd>
+			<dt><!--内容-->
+				<label>
+					[Description]
+				</label>
+			</dt>
+			<dd>
+				<div th:text="*{description}"></div><!--type="text"を警告が出たので消した-->
+			</dd>
+		</dl>
+		<p>
+			<th:block>
+				<button type="submit" name="btn" th:value="${btnBack}">Preview Page</button>
+				<button type="submit" name="btn" th:value="${btnMode}" 
+				onclick="return confirm('本当に実行してもよろしいですか？')">Decision</button>
+			</th:block>
+		</p>
+	</form>
+	<form th:if="${!confirm}" th:object="${category}">	
+		<input th:if="${!confirm}" type="hidden" th:field="*{id}">
+		<th:block th:action="@{/blog/cate}">
+			<button type="submit" name="btn" th:value="${btnClear}" 
+			onclick="return confirm('入力をクリアしてもよろしいですか？')">Clear</button>
+		</th:block>
+	</form>
+	
+
+</body>
+
+</html> <!--これはカテゴリーのHTMLです-->
